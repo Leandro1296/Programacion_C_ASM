@@ -1,18 +1,19 @@
-# Programacion_C_ASM
+# Programacion_C_ASM   🤖
 Ejercicios de Linkeo de assembler con C.
 
-Formula resolvente
+**_Formula resolvente_**  💻
 
-Problema:
+- Problema:
 
 Calcular las raíces de una función cuadrática a través de la fórmula resolvente.
 
-Descripcion de la solucion:
+- Descripcion de la solucion:
 
 La funcionalidad se realizo, por medio de un linkeo codigo c y assembler.
+
 Por un lado, tenemos el codigo en assembler en el archivo:
 
-resolvente.asm
+**resolvente.asm**  📄
 
 En este archivo se realizan las operaciones correspondientes a la formula usando instrucciones para la FPU.
 Recibe los parametros a, b, y c, imprimiendo al final el resultado las raices x1 y x2.
@@ -60,7 +61,7 @@ Por ultimo, se imprime los valores de x1 y x2, y se resetea la pila en memoria.
 
 Por otro lado, esta el codigo en C, que va hacer uso de la funcion del archivo assembler:
 
-formulaResolvente.c
+**formulaResolvente.c**  📄
 
 Donde se pide al usuario los valores de tipo float que van a ser utlizados para calcular las raices.
 Una vez que tiene esos valores llama a la funcion CMAIN de resolvente.asm y le pasa por parametros a, b y c. 
@@ -80,7 +81,7 @@ Por ultimo, se invoca la funcion que calcula la resolvente:
 
 Para hacer compilacion y el linkeo de los archivos objetos de ambos, se usa el archivo: 
 
-formulaResolvente.sh
+**formulaResolvente.sh**  📄
 
 Primero genera el archivo objeto del codigo en assembler, luego el del codigo C y finalmente genera un ejecutable.
 Este ultimo tiene tambien la instruccion en el codigo a para ejecutarse, de todas formas despues de haber hecho un ejecutable tambien se puede correr aparte.
@@ -89,12 +90,12 @@ Este ultimo tiene tambien la instruccion en el codigo a para ejecutarse, de toda
 
 En esta ocasion, el programa es para la arquitectura IA-32 es por eso que para nasm se usa -elf32 y para el de gcc -m32.
 
-Ejemplos:
+- Ejemplos: 🏃
 
 Se quiere calcular las raices de  ![image](https://user-images.githubusercontent.com/20952785/136300684-401629ee-2d9b-4c8f-935f-557c38d48799.png).
 Para eso primero se ejecuta en la terminal 
 
-./formulaResolvente.sh 
+> ./formulaResolvente.sh 
 
 Ingresamos los valores de a, b y c.
 
@@ -113,16 +114,65 @@ Por ejemplo, con a = 1, b = 1 y c = 2 obtenemos lo siguiente:
 ![image](https://user-images.githubusercontent.com/20952785/136302314-05c5782b-dea4-470a-88ac-eb5c03acc3d4.png)
 
 
-Producto escalar
+**_Producto escalar_**  💻
 
-Problema:
+- Problema:
 
 Calcular el producto escalar entre un puntero a un vector de números de punto flotante y un número r. Debe multiplicar
 cada elemento del vector por r. Debe ser para la arquitectura IA-32.
 
-Descripcion de la solucion:
+- Descripcion de la solucion:
 
-escalar.asm
+Por medio de codigo assembler, se recorre un vector con valores de punto flotante y se multiplica por un número r cada valor. Finalmente lo muestra por pantalla.
+
+**escalar.asm**  📄
+
+La primera linea tiene que estar comentada para ejecutarlo por consola. Si no, podria aparacer el siguiente error: ![image](https://user-images.githubusercontent.com/20952785/136314941-f282f0fc-94ee-41fd-968b-732a8ec8ccd9.png)
+
+Esta la variable **puntero** que es de tipo qword, donde se almacena la direccion del vector en memoria. Cuando se quiera acceder a los valores se necesita desplaza como [base + indice vector * 8]. Se usa 8 por los 8 bytes que ocupa un qword.
+Esta la varible **limite**, que indica la cantidad de valores del vector. Es importante tenerlo, porque si no esta, al recorrer el vector se sigue moviendo a traves de la memoria. Esto sirve como condicion para que deje de iterar.
+Esta la variable **r**, que es el número por el cual se va a multiplicar cada valor del vector.
+Estas son las principales. Luego hay variable para ir almacenando el resulta y mostrar el valor del producto en pantalla.
+
+![image](https://user-images.githubusercontent.com/20952785/136314043-0e9b4fd9-d22c-46f5-8910-0df18d7a8747.png)
+
+En la seccion 'text' se declara la funcion que se va usar para el producto escalar y la funcion externa printf.
+
+Ponemos el r y el puntero del vector en la pila, junto con el limite. Luego se llama a la funcion **producto_rvf**.
+
+![image](https://user-images.githubusercontent.com/20952785/136315874-8f4e2aeb-a7f7-4cf8-867f-ea2f7060d10b.png)
+
+Dentro de **prodeucto_rvf**, por cada valor del vector se usan instrucciones para cargar el valor actual y el r en la pila FPU para hacer el producto. Para no exceder el uso de registros de la FPU se usa la instruccion **ffree** para liberar un elemento de la pila.
+Una vez, que se realiza esta operacion se imprime el resultado en pantalla. Luego, se pregunta si el valor era el ultimo. Si no lo es, repito la operacion, caso contrario, se sale de la funcion y se termina la ejecucion.
+
+![image](https://user-images.githubusercontent.com/20952785/136316437-d33e25d8-dbd5-4478-800f-bd443afd73f5.png)
+
+Para hacer compilacion y ejecucion se usa el archivo: 
+
+**productoEscalar.sh**  📄
+
+Primero genera el archivo objeto del codigo en assembler, compila con gcc pasando el archivo objeto y finalmente genera un ejecutable.
+Este ultimo tiene tambien la instruccion en el codigo a para ejecutarse, de todas formas despues de haber hecho un ejecutable tambien se puede correr aparte.
+
+![image](https://user-images.githubusercontent.com/20952785/136317927-6c01343d-d77f-4b96-a49d-d4d36399ce4a.png)
+
+En esta ocasion, el programa es para la arquitectura IA-32 es por eso que para nasm se usa -elf32 y para el de gcc -m32.
+
+- Ejemplos: 🏃
+
+Se quiere calcular el producto escalar de lo siguiente:
+```
+puntero dq 25.0,0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0
+limite db 10
+r dq 23.0
+```
+Ejecutando lo siguiente en la consola:
+
+> ./formulaResolvente.sh 
+
+Obtenemos la salida:
+
+![image](https://user-images.githubusercontent.com/20952785/136318305-4b038fb8-1f05-4a7c-8291-94dd156403d0.png)
 
 
 
@@ -131,18 +181,12 @@ escalar.asm
 
 
 
+- **Referencias**:  👀
 
+https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html
 
+https://www.csee.umbc.edu/courses/undergraduate/313/fall04/burt_katz/lectures/Lect12/floatingpoint.html
 
+https://www.nasm.us/xdoc/2.09.04/html/nasmdoc9.html
 
-
-
-
-
-
-
-
-
-
-
-
+Intel 64 and IA-32 Architectures Software Developer's Manual - Volume 1 - Chapter 8 Programming with the x87 FPU
