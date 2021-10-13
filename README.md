@@ -1,5 +1,5 @@
 # Programacion_C_ASM   🤖
-Ejercicios de programacion en C y Assembler.
+Ejercicios de programacion en C y Assembler. Utilizando Visual Studio Code y Nasm.
 
 **_Formula resolvente_**  💻
 
