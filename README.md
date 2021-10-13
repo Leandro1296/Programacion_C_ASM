@@ -1,5 +1,5 @@
 # Programacion_C_ASM   🤖
-Ejercicios de Linkeo de assembler con C.
+Ejercicios de programacion en C y Assembler.
 
 **_Formula resolvente_**  💻
 
@@ -15,7 +15,7 @@ Por un lado, tenemos el codigo en assembler en el archivo:
 
 **resolvente.asm**  📄
 
-En este archivo se realizan las operaciones correspondientes a la formula usando instrucciones para la FPU.
+En este archivo se realizan las operaciones correspondientes a la formula usando instrucciones para trabajar con FPU.
 Recibe los parametros a, b, y c, imprimiendo al final el resultado las raices x1 y x2.
 
 Primero se declara la seccion de datos, donde se ve comentada la primer linea, para que pueda compilar cuando se hace el linkeo desde C.
@@ -23,15 +23,15 @@ Despues, estan los valores de tipo qword para trabajar con los floats y un forma
 
 ![image](https://user-images.githubusercontent.com/20952785/136303607-de5877b4-e7de-4df1-95e6-1c5bda1fc115.png)
 
-Se declara la seccion donde se va estar la funcionalidad. Tambien el uso de printf como funcion externa.
+Se declara la seccion 'text' donde se va estar la funcionalidad. Tambien el uso de printf como funcion externa.
 
 ![image](https://user-images.githubusercontent.com/20952785/136303936-4f49a843-90e4-4ea8-8853-f610b2ce2e98.png)
 
-Ya en la funcion principal, se ve una primer linea comentada que se usa para debug. Si no esta comentada se produce un desbordamiento al querer leer los paramatros que se ingresen. Se produce un 'stack smashing detected'. La segunda linea es para inicializar la pila, poniendo el stack pointer en el base pointer y asi poder trabajar con los argumentos a, b y c. Sin eso podria producirse un segmentation fault. 
+Ya en la funcion principal, se ve una primer linea comentada que se usa para debug. Si no esta comentada se produce un error de desbordamiento al querer leer los paramatros que se ingresen. Se produce un 'stack smashing detected'. La segunda linea es para inicializar la pila, poniendo el stack pointer en el base pointer y asi poder trabajar con los argumentos a, b y c. Sin eso podria producirse un segmentation fault. 
 
 ![image](https://user-images.githubusercontent.com/20952785/136304102-f9a4a911-f1b1-46c5-aad9-eb5b16325d5e.png)
 
-Leemos los valores a, b y c. Se usa dword para almacenar el valor correcto que hay en el parametro. Tambien se utiliza la instruccion ffree para poder liberar la pila de FPU.
+Leemos los valores a, b y c. Se usa dword para almacenar el valor correcto que hay en el parametro. Tambien se utiliza la instruccion ffree para poder liberar un elemento de la pila de FPU.
 Esto es porque tiene 8 registros disponibles y para poder hacer muchas operaciones sobre ella hay que ir liberando elementos de la pila que ya no se usan.
 
 ![image](https://user-images.githubusercontent.com/20952785/136304470-cc6003a8-90d9-4e4f-bc51-2fc40bfec996.png)
@@ -71,7 +71,7 @@ Primero se importan librerias y se declara el uso de la funcion externa CMAIN(a,
 ![image](https://user-images.githubusercontent.com/20952785/136302627-43b824d0-a6a4-4793-bada-e0dab53e73d7.png)
 
 Dentro del main de c, esta el pedido de los valores para la formula, usando la scanf(formato, valorIngresado).
-El formato para float es %f, %e y %g tambien son validos. Y el & es para obtener la direccion del valor y almacenarlo en una variable. Sin podria ocurrir un error de violacion de segmento.
+El formato para float es %f, %e y %g tambien son validos. Y el & es para obtener la direccion del valor y almacenarlo en una variable. Sin eso, podria ocurrir un error de violacion de segmento.
 
 ![image](https://user-images.githubusercontent.com/20952785/136303213-0aead2fa-1417-474d-9ac3-8fa6f4686168.png)
 
