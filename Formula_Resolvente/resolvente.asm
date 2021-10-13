@@ -74,8 +74,6 @@ CMAIN:
     fmul
     fst qword[tempDiv]
     ffree
-    fst qword[x1]
-    fst qword[x2]
     
  ;x1:
     fld qword[tempNeg]
